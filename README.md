@@ -4,7 +4,7 @@
 
 TechDrop Lab is an interactive 3D educational website for learning the parts of a desktop computer. A real-time 3D PC — built entirely from Three.js geometry — sits on a blueprint-style inspection sheet. Select any component in 3D or from the component index, the camera focuses on it, and a study panel explains what it is, what it does, and how it works.
 
-**Live:** https://techdrop-lab-niv-dev1.vercel.app
+**Live:** https://techdrop-lab.vercel.app
 
 ## Components covered
 
