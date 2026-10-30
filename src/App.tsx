@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, ArrowUpRight, RotateCcw } from 'lucide-react'
 import type { ComponentId } from './types/hardware'
 import { componentById } from './data/components'
 import ExplodedViewer from './components/ExplodedViewer'
+import HardwareDetailModal from './components/HardwareDetailModal'
 import ComponentList from './components/ComponentList'
 import ComponentPanel from './components/ComponentPanel'
 
@@ -29,6 +30,8 @@ const TECH: Array<[string, string]> = [
 export default function App() {
   const [selected, setSelected] = useState<ComponentId | null>(null)
   const [hovered, setHovered] = useState<ComponentId | null>(null)
+  const [modalId, setModalId] = useState<ComponentId | null>(null)
+  const [modalClosing, setModalClosing] = useState(false)
   const reducedMotion = useReducedMotion()
 
   const select = useCallback((id: ComponentId) => {
@@ -38,6 +41,42 @@ export default function App() {
   const close = useCallback(() => {
     setSelected(null)
   }, [])
+
+  const openerRef = useRef<ComponentId | null>(null)
+
+  const openModal = useCallback((id: ComponentId) => {
+    openerRef.current = id
+    setSelected(id)
+    setModalClosing(false)
+    setModalId(id)
+  }, [])
+
+  const requestCloseModal = useCallback(() => {
+    setModalClosing(true)
+  }, [])
+
+  const handleModalExited = useCallback(() => {
+    const opener = openerRef.current
+    openerRef.current = null
+    setModalId(null)
+    setModalClosing(false)
+    setSelected(null)
+    if (opener) {
+      requestAnimationFrame(() => {
+        document.querySelector<HTMLElement>(`[data-marker="${opener}"]`)?.focus()
+      })
+    }
+  }, [])
+
+  // Lock background scroll while the modal is mounted.
+  useEffect(() => {
+    if (!modalId) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [modalId])
 
   const selectAndShowStage = useCallback(
     (id: ComponentId) => {
@@ -49,11 +88,11 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close()
+      if (e.key === 'Escape' && !modalId) close()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [close])
+  }, [close, modalId])
 
   const selectedComponent = selected ? componentById(selected) : null
 
@@ -137,7 +176,7 @@ export default function App() {
                 <ExplodedViewer
                   selected={selected}
                   hovered={hovered}
-                  onSelect={select}
+                  onSelect={openModal}
                   onHover={setHovered}
                   reducedMotion={reducedMotion}
                 />
@@ -174,8 +213,8 @@ export default function App() {
               </h2>
             </div>
             <p className="max-w-sm text-[15px] leading-relaxed text-secondary">
-              Choose a part from the index — or click its numbered marker on the drawing. The view zooms
-              to the part and its study opens beside the index.
+              Choose a part from the index — or click its numbered marker on the drawing to open its
+              detail window. The view zooms to the part and its study opens beside the index.
             </p>
           </div>
 
@@ -260,6 +299,20 @@ export default function App() {
           </div>
         </section>
       </main>
+
+      {modalId && (
+        <HardwareDetailModal
+          componentId={modalId}
+          closing={modalClosing}
+          reducedMotion={reducedMotion}
+          onClose={requestCloseModal}
+          onSwitch={(id) => {
+            setSelected(id)
+            setModalId(id)
+          }}
+          onExited={handleModalExited}
+        />
+      )}
 
       <footer className="border-t border-[rgba(188,211,245,0.18)]">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-5 py-7 font-mono text-[11px] uppercase tracking-[0.12em] text-muted md:px-10 lg:px-14">

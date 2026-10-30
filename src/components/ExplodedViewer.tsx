@@ -47,10 +47,13 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
           {COMPONENTS.map((c) => {
             const h = hotspots[c.id]
             const isActive = selected === c.id || hovered === c.id
+            const isHovered = hovered === c.id
+            const markerScale = (1 / zoom) * (isHovered || selected === c.id ? 1.18 : 1)
             return (
               <button
                 key={c.id}
                 type="button"
+                data-marker={c.id}
                 aria-label={`Inspect ${c.name}`}
                 aria-pressed={selected === c.id}
                 onClick={() => onSelect(c.id)}
@@ -58,7 +61,7 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
                 onMouseLeave={() => onHover(null)}
                 onFocus={() => onHover(c.id)}
                 onBlur={() => onHover(null)}
-                className={`absolute z-10 flex items-center justify-center rounded-full border font-mono text-[11px] font-semibold backdrop-blur-[2px] transition-colors ${
+                className={`absolute z-10 flex items-center justify-center rounded-full border font-mono text-[11px] font-semibold backdrop-blur-[2px] transition-[background-color,border-color,opacity] duration-200 ${
                   isActive
                     ? 'border-accent bg-accent text-[#102141]'
                     : 'border-[rgba(12,29,59,0.55)] bg-[rgba(233,233,234,0.82)] text-[#102141] hover:border-accent hover:bg-accent'
@@ -68,10 +71,15 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
                   top: `${h.y}%`,
                   width: 30,
                   height: 30,
-                  transform: `translate(-50%, -50%) scale(${1 / zoom})`,
+                  transform: `translate(-50%, -50%) scale(${markerScale})`,
                 }}
               >
                 {c.index}
+                {isHovered && !selected && (
+                  <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap border border-[rgba(134,216,255,0.45)] bg-deep px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-ink">
+                    {c.name}
+                  </span>
+                )}
               </button>
             )
           })}
