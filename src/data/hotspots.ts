@@ -13,12 +13,12 @@ export interface Hotspot {
 }
 
 export const hotspots: Record<ComponentId, Hotspot> = {
-  motherboard: { x: 32.5, y: 42.4, zoom: 1.5 },
-  cpu: { x: 27.8, y: 24.1, zoom: 2.6 },
-  cooler: { x: 27.5, y: 12.1, zoom: 2.1 },
-  ram: { x: 42.2, y: 27.3, zoom: 2.4 },
-  gpu: { x: 15.9, y: 54.4, zoom: 2.0 },
-  ssd: { x: 33.6, y: 62, zoom: 2.8 },
-  psu: { x: 15.8, y: 76.1, zoom: 2.0 },
-  fans: { x: 80.8, y: 48.4, zoom: 1.9 },
+  motherboard: { x: 33.5, y: 48, zoom: 1.5 },
+  cpu: { x: 29.4, y: 28.1, zoom: 2.6 },
+  cooler: { x: 27.8, y: 13.8, zoom: 2.1 },
+  ram: { x: 42.6, y: 31.5, zoom: 2.4 },
+  gpu: { x: 16.7, y: 61, zoom: 2.0 },
+  ssd: { x: 30.9, y: 70.8, zoom: 2.8 },
+  psu: { x: 16.8, y: 84.8, zoom: 2.0 },
+  fans: { x: 83.2, y: 54.7, zoom: 1.9 },
 }
