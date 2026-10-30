@@ -8,7 +8,6 @@ export type ComponentId =
   | 'cooler'
   | 'fans'
 
-export type Vec3 = [number, number, number]
 
 export interface HardwareComponent {
   id: ComponentId
@@ -22,8 +21,4 @@ export interface HardwareComponent {
   location: string
   facts: string[]
   related: ComponentId[]
-  /** Camera preset used when this component is selected. */
-  focus: { target: Vec3; camera: Vec3 }
-  /** Anchor point for the floating name label in the 3D stage. */
-  labelAnchor: Vec3
 }

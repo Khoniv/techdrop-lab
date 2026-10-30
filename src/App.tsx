@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowRight, ArrowUpRight, Info, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { ArrowRight, ArrowUpRight, RotateCcw } from 'lucide-react'
 import type { ComponentId } from './types/hardware'
 import { componentById } from './data/components'
-import PCScene, { type ViewerApi } from './three/PCScene'
+import ExplodedViewer from './components/ExplodedViewer'
 import ComponentList from './components/ComponentList'
 import ComponentPanel from './components/ComponentPanel'
 
@@ -19,21 +19,9 @@ function useReducedMotion(): boolean {
   return reduced
 }
 
-function supportsWebGL(): boolean {
-  try {
-    const canvas = document.createElement('canvas')
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext('webgl2') || canvas.getContext('webgl'))
-    )
-  } catch {
-    return false
-  }
-}
-
 const TECH: Array<[string, string]> = [
   ['React + TypeScript', 'Interface and application logic'],
-  ['Three.js · React Three Fiber', 'Real-time 3D computer, built from geometry'],
+  ['Annotated exploded illustration', 'Numbered markers with zoom-to-part focus'],
   ['Tailwind CSS', 'Blueprint design system and layout'],
   ['Vite', 'Development and production build'],
 ]
@@ -41,32 +29,14 @@ const TECH: Array<[string, string]> = [
 export default function App() {
   const [selected, setSelected] = useState<ComponentId | null>(null)
   const [hovered, setHovered] = useState<ComponentId | null>(null)
-  const [focusNonce, setFocusNonce] = useState(0)
-  const [sceneReady, setSceneReady] = useState(false)
   const reducedMotion = useReducedMotion()
-  const [webgl] = useState(supportsWebGL)
-  const apiRef = useRef<ViewerApi | null>(null)
-  const scrollRef = useRef(0)
-
-  // Scroll progress over roughly the first viewport drives the stage parallax.
-  useEffect(() => {
-    const onScroll = () => {
-      const range = Math.max(window.innerHeight * 1.15, 1)
-      scrollRef.current = Math.min(Math.max(window.scrollY / range, 0), 1)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const select = useCallback((id: ComponentId) => {
     setSelected(id)
-    setFocusNonce((n) => n + 1)
   }, [])
 
   const close = useCallback(() => {
     setSelected(null)
-    setFocusNonce((n) => n + 1)
   }, [])
 
   const selectAndShowStage = useCallback(
@@ -112,7 +82,7 @@ export default function App() {
       </header>
 
       <main id="top">
-        {/* ---------- Cover sheet: copy + the 3D stage ---------- */}
+        {/* ---------- Cover sheet: copy + the exploded drawing ---------- */}
         <section className="mx-auto max-w-[1440px] px-5 pb-14 pt-10 md:px-10 lg:px-14 lg:pt-12">
           <div className="grid items-start gap-10 lg:grid-cols-12">
             <div className="lg:col-span-5 lg:pt-6">
@@ -123,8 +93,8 @@ export default function App() {
                 Look inside the machine.
               </h1>
               <p className="mt-6 max-w-md text-lg leading-relaxed text-secondary">
-                Explore the parts of a desktop computer in 3D. Select a component to see where it sits,
-                what it does, and how it works.
+                Explore the parts of a desktop computer in an exploded view. Select a component to see
+                where it sits, what it does, and how it works.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
@@ -134,20 +104,20 @@ export default function App() {
                   Explore Computer
                   <ArrowRight size={18} aria-hidden />
                 </a>
-                <p className="font-mono text-xs text-muted">DRAG TO ROTATE · SCROLL TO INSPECT</p>
+                <p className="font-mono text-xs text-muted">SELECT A MARKER TO INSPECT</p>
               </div>
               <dl className="mt-12 hidden max-w-md space-y-3 border-l-2 border-[rgba(188,211,245,0.18)] pl-5 font-mono text-xs leading-relaxed text-muted lg:block">
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-secondary">SUBJECT</dt>
-                  <dd>Desktop computer in exploded view, open side panel</dd>
+                  <dd>Desktop computer, exploded view illustration</dd>
                 </div>
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-secondary">CONTENTS</dt>
-                  <dd>8 components, each selectable in 3D and from the index</dd>
+                  <dd>8 components, each marked on the drawing and listed in the index</dd>
                 </div>
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-secondary">METHOD</dt>
-                  <dd>Select a part → camera focuses → read its study</dd>
+                  <dd>Select a part → the view zooms in → read its study</dd>
                 </div>
               </dl>
             </div>
@@ -164,34 +134,13 @@ export default function App() {
                   Exploded view
                 </p>
 
-                {webgl ? (
-                  <>
-                    {!sceneReady && (
-                      <p className="absolute inset-0 z-10 flex items-center justify-center font-mono text-xs uppercase tracking-[0.14em] text-muted">
-                        Loading model…
-                      </p>
-                    )}
-                    <PCScene
-                      selected={selected}
-                      hovered={hovered}
-                      onSelect={select}
-                      onHover={setHovered}
-                      reducedMotion={reducedMotion}
-                      focusNonce={focusNonce}
-                      apiRef={apiRef}
-                      scrollRef={scrollRef}
-                      onReady={() => setSceneReady(true)}
-                    />
-                  </>
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
-                    <Info size={26} className="text-accent" aria-hidden />
-                    <p className="max-w-sm leading-relaxed text-secondary">
-                      Your browser could not start WebGL, so the 3D model is unavailable. The component
-                      index and studies below still contain the full lesson.
-                    </p>
-                  </div>
-                )}
+                <ExplodedViewer
+                  selected={selected}
+                  hovered={hovered}
+                  onSelect={select}
+                  onHover={setHovered}
+                  reducedMotion={reducedMotion}
+                />
 
                 <p className="absolute bottom-3.5 left-4 z-10 max-w-[70%] bg-surface px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">
                   {selectedComponent
@@ -201,17 +150,14 @@ export default function App() {
                       : 'Select a component to inspect'}
                 </p>
                 <div className="absolute bottom-3.5 right-4 z-10 flex gap-2">
-                  <button type="button" aria-label="Zoom in" className={controlButton} onClick={() => apiRef.current?.zoomIn()}>
-                    <ZoomIn size={18} aria-hidden />
-                  </button>
-                  <button type="button" aria-label="Zoom out" className={controlButton} onClick={() => apiRef.current?.zoomOut()}>
-                    <ZoomOut size={18} aria-hidden />
-                  </button>
                   <button type="button" aria-label="Reset view" className={controlButton} onClick={close}>
                     <RotateCcw size={18} aria-hidden />
                   </button>
                 </div>
               </div>
+              <p className="mt-2 text-right font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+                Exploded illustration · Meshy AI
+              </p>
             </div>
           </div>
         </section>
@@ -228,8 +174,8 @@ export default function App() {
               </h2>
             </div>
             <p className="max-w-sm text-[15px] leading-relaxed text-secondary">
-              Choose a part from the index — or click it directly in the viewer. The camera moves to the
-              part and its study opens beside the index.
+              Choose a part from the index — or click its numbered marker on the drawing. The view zooms
+              to the part and its study opens beside the index.
             </p>
           </div>
 
@@ -263,13 +209,14 @@ export default function App() {
               <p className="mt-5 max-w-xl leading-relaxed text-secondary">
                 TechDrop Lab is an interactive educational exhibit about the inside of a desktop computer.
                 It exists for one reason: to make hardware understandable by letting you look at it —
-                turn the machine around, pick a part, and read a plain explanation of what that part
-                does and how it works.
+                study the machine pulled apart, pick a part, and read a plain explanation of what that
+                part does and how it works.
               </p>
               <p className="mt-4 max-w-xl leading-relaxed text-secondary">
-                The computer in the viewer is modelled from individual parts — motherboard, processor,
-                memory, graphics card, storage, power supply, and cooling — pulled apart in an exploded
-                view, each part floating along the path it would take during assembly. No shop, no scores, no accounts: just the machine and its study.
+                The drawing above shows the computer in an exploded view — motherboard, processor,
+                memory, graphics card, storage, power supply, and cooling — each part floating along the
+                path it would take during assembly. Every part carries a numbered marker that matches
+                the component index. No shop, no scores, no accounts: just the machine and its study.
               </p>
               <p className="mt-4 max-w-xl leading-relaxed text-secondary">
                 Built by <span className="text-ink">Khonif Zakaria</span>, software engineer, as a

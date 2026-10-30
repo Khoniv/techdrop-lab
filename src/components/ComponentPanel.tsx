@@ -21,9 +21,9 @@ export default function ComponentPanel({ component, onClose, onSelect }: Props) 
         <MousePointerClick size={28} strokeWidth={1.5} className="text-accent" aria-hidden />
         <h3 className="mt-5 text-2xl font-semibold text-ink">Select a component to inspect.</h3>
         <p className="mt-3 max-w-md leading-relaxed text-secondary">
-          Click a part of the computer in the viewer above, or choose one from the component index. Its
-          study — what it is, what it does, and how it works — opens here, and the camera moves to it in
-          the 3D view.
+          Click a numbered marker on the drawing above, or choose a part from the component index. Its
+          study — what it is, what it does, and how it works — opens here, and the view zooms to it on
+          the drawing.
         </p>
         <p className="mt-6 font-mono text-xs text-muted">8 COMPONENTS · ALL SELECTABLE FROM THE INDEX</p>
       </div>
