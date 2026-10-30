@@ -139,7 +139,7 @@ export default function App() {
               <dl className="mt-12 hidden max-w-md space-y-3 border-l-2 border-[rgba(188,211,245,0.18)] pl-5 font-mono text-xs leading-relaxed text-muted lg:block">
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-secondary">SUBJECT</dt>
-                  <dd>Desktop computer, open side panel</dd>
+                  <dd>Desktop computer in exploded view, open side panel</dd>
                 </div>
                 <div className="flex gap-3">
                   <dt className="w-24 shrink-0 text-secondary">CONTENTS</dt>
@@ -161,7 +161,7 @@ export default function App() {
                   Fig. 01 — Desktop system
                 </p>
                 <p className="pointer-events-none absolute right-4 top-3.5 z-10 hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted sm:block">
-                  Open side panel
+                  Exploded view
                 </p>
 
                 {webgl ? (
@@ -240,7 +240,7 @@ export default function App() {
               </h3>
               <ComponentList selected={selected} onSelect={selectAndShowStage} />
               <p className="mt-4 font-mono text-xs leading-relaxed text-muted">
-                TIP — THE CPU SITS UNDER ITS COOLER. SELECT IT AND THE COOLER FADES AWAY.
+                IN THIS EXPLODED VIEW, EVERY PART FLOATS BESIDE THE PLACE WHERE IT INSTALLS.
               </p>
             </div>
             <div className="lg:col-span-8">
@@ -268,8 +268,8 @@ export default function App() {
               </p>
               <p className="mt-4 max-w-xl leading-relaxed text-secondary">
                 The computer in the viewer is modelled from individual parts — motherboard, processor,
-                memory, graphics card, storage, power supply, and cooling — arranged the way they sit in
-                a real case. No shop, no scores, no accounts: just the machine and its study.
+                memory, graphics card, storage, power supply, and cooling — pulled apart in an exploded
+                view, each part floating along the path it would take during assembly. No shop, no scores, no accounts: just the machine and its study.
               </p>
               <p className="mt-4 max-w-xl leading-relaxed text-secondary">
                 Built by <span className="text-ink">Khonif Zakaria</span>, software engineer, as a

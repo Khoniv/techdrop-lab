@@ -26,8 +26,8 @@ export interface ViewerApi {
   zoomOut: () => void
 }
 
-const DEFAULT_CAM: Vec3 = [5.2, 2.0, 7.4]
-const DEFAULT_TARGET: Vec3 = [0, -0.1, 0]
+const DEFAULT_CAM: Vec3 = [7.8, 3.1, 10.8]
+const DEFAULT_TARGET: Vec3 = [-0.7, 0.1, 0.2]
 
 interface SceneProps {
   selected: ComponentId | null
@@ -94,7 +94,7 @@ function CameraRig({
       anim.current.active = false
       const cam = controls.object
       const offset = cam.position.clone().sub(controls.target)
-      const len = THREE.MathUtils.clamp(offset.length() * factor, 3.4, 13)
+      const len = THREE.MathUtils.clamp(offset.length() * factor, 3.4, 19)
       offset.setLength(len)
       cam.position.copy(controls.target).add(offset)
       controls.update()
@@ -122,7 +122,7 @@ function CameraRig({
       enableDamping
       dampingFactor={0.08}
       minDistance={3.4}
-      maxDistance={13}
+      maxDistance={19}
       minPolarAngle={0.3}
       maxPolarAngle={1.62}
       onStart={() => {
@@ -182,7 +182,7 @@ export default function PCScene(props: SceneProps) {
   // Narrow (phone) viewports get a wider default framing so the whole case fits.
   const defaultCam: Vec3 =
     typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
-      ? [7.0, 2.8, 9.9]
+      ? [10.4, 4.3, 14.6]
       : DEFAULT_CAM
   return (
     <Canvas
@@ -192,10 +192,11 @@ export default function PCScene(props: SceneProps) {
       onCreated={props.onReady}
       style={{ background: 'transparent' }}
     >
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[5, 7, 6]} intensity={1.6} color="#eaf2ff" />
-      <directionalLight position={[-6, 3, -2]} intensity={0.45} color="#86d8ff" />
-      <pointLight position={[0, 0.5, 2.5]} intensity={9} distance={10} color="#bcd8ff" />
+      <ambientLight intensity={0.9} />
+      <directionalLight position={[5, 7, 6]} intensity={2.1} color="#eaf2ff" />
+      <directionalLight position={[-5, 2, 7]} intensity={0.75} color="#dbe9ff" />
+      <directionalLight position={[-6, 3, -2]} intensity={0.85} color="#86d8ff" />
+      <pointLight position={[0, 0.5, 2.5]} intensity={15} distance={13} color="#bcd8ff" />
       <Suspense fallback={null}>
         <ParallaxGroup selected={props.selected} reducedMotion={props.reducedMotion} scrollRef={props.scrollRef}>
           {glbAvailable ? (

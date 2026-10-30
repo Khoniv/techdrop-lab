@@ -19,8 +19,8 @@ export const COMPONENTS: HardwareComponent[] = [
       'Its size standard, such as ATX, decides which cases it fits into.',
     ],
     related: ['cpu', 'ram', 'gpu'],
-    focus: { target: [-0.1, 0.4, -0.85], camera: [0.4, 0.9, 5.4] },
-    labelAnchor: [-1.9, 2.5, -0.8],
+    focus: { target: [-0.45, 0.4, -0.35], camera: [0.2, 0.9, 5.8] },
+    labelAnchor: [-2.2, 2.45, -0.3],
   },
   {
     id: 'cpu',
@@ -33,15 +33,15 @@ export const COMPONENTS: HardwareComponent[] = [
     primaryFunction:
       'Executes instructions and performs calculations, coordinating the work of the rest of the system.',
     howItWorks:
-      'It repeatedly fetches an instruction from memory, decodes what it means, and executes it — billions of times per second. Modern CPUs contain several cores, so they can work on many instructions at once. The CPU sits under the cooler, which is faded out here so you can see it.',
-    location: 'In the CPU socket near the top of the motherboard, hidden beneath the CPU cooler.',
+      'It repeatedly fetches an instruction from memory, decodes what it means, and executes it — billions of times per second. Modern CPUs contain several cores, so they can work on many instructions at once. In this exploded view the processor floats above its socket; in an assembled computer it sits clamped beneath the cooler.',
+    location: 'In the CPU socket near the top of the motherboard, directly beneath the CPU cooler once assembled.',
     facts: [
       'A modern desktop CPU contains billions of transistors.',
       'Its speed is partly described by clock rate, measured in gigahertz (GHz).',
     ],
     related: ['cooler', 'ram', 'motherboard'],
-    focus: { target: [-1.15, 1.25, -0.6], camera: [-0.6, 1.8, 3.2] },
-    labelAnchor: [-1.15, 2.15, -0.5],
+    focus: { target: [-1.5, 1.32, 0.95], camera: [-0.85, 1.85, 4.1] },
+    labelAnchor: [-1.5, 1.95, 1.0],
   },
   {
     id: 'ram',
@@ -61,8 +61,8 @@ export const COMPONENTS: HardwareComponent[] = [
       'RAM is far faster to access than even the quickest SSD — but it forgets everything when the power goes off.',
     ],
     related: ['cpu', 'motherboard', 'ssd'],
-    focus: { target: [0.5, 1.25, -0.75], camera: [1.2, 1.8, 3.2] },
-    labelAnchor: [0.5, 2.35, -0.6],
+    focus: { target: [-0.02, 1.45, 0.85], camera: [0.6, 1.95, 4.1] },
+    labelAnchor: [-0.02, 2.45, 0.9],
   },
   {
     id: 'gpu',
@@ -82,8 +82,8 @@ export const COMPONENTS: HardwareComponent[] = [
       'Graphics cards carry their own memory, called VRAM, separate from system RAM.',
     ],
     related: ['motherboard', 'psu', 'cpu'],
-    focus: { target: [-0.55, -0.28, -0.5], camera: [0.2, 0.4, 3.9] },
-    labelAnchor: [-0.55, 0.45, -0.3],
+    focus: { target: [-1.35, -0.55, 0.95], camera: [-0.3, 0.3, 6.1] },
+    labelAnchor: [-1.35, 0.2, 1.0],
   },
   {
     id: 'ssd',
@@ -97,14 +97,14 @@ export const COMPONENTS: HardwareComponent[] = [
       'Stores data persistently and loads it quickly when the computer starts or a program opens.',
     howItWorks:
       'An SSD keeps data in flash memory chips. It has no moving parts — nothing spins — so it reads and writes far faster and more quietly than an older mechanical hard disk.',
-    location: 'This M.2 SSD lies flat in a short slot on the motherboard, below the graphics card.',
+    location: 'Lies flat in a short M.2 slot on the motherboard, below the graphics card; here it floats just off that slot.',
     facts: [
       'Because an SSD has no moving parts, it also survives bumps and drops better than a hard disk.',
       'Storage capacity is measured in gigabytes (GB) and terabytes (TB).',
     ],
     related: ['motherboard', 'ram', 'psu'],
-    focus: { target: [1.35, -0.15, -0.8], camera: [1.8, 0.5, 2.9] },
-    labelAnchor: [1.35, 0.35, -0.7],
+    focus: { target: [0.85, -1.3, 0.8], camera: [1.5, -0.55, 3.7] },
+    labelAnchor: [0.85, -0.8, 0.85],
   },
   {
     id: 'psu',
@@ -118,14 +118,14 @@ export const COMPONENTS: HardwareComponent[] = [
       'Converts AC power from the wall into regulated DC power and distributes it to every component.',
     howItWorks:
       'Inside, a transformer and control circuits convert alternating current into direct current at several voltages. Cables carry that power to the motherboard, graphics card, and drives.',
-    location: 'At the bottom of the case, under the metal shroud, with its fan and power socket at the rear.',
+    location: 'Slides into the bottom of the case under the metal shroud; in this view it is pulled out along its mounting path.',
     facts: [
       'Every other component depends on the PSU — without it, nothing in the case receives power.',
       'Its capacity is rated in watts (W), which must cover the whole system’s demand.',
     ],
     related: ['motherboard', 'gpu', 'ssd'],
-    focus: { target: [0, -1.9, -0.1], camera: [0.6, -0.8, 4.4] },
-    labelAnchor: [0, -1.35, 0.4],
+    focus: { target: [-3.7, -1.9, 0.05], camera: [-5.6, -0.9, 3.6] },
+    labelAnchor: [-3.7, -1.25, 0.1],
   },
   {
     id: 'cooler',
@@ -142,11 +142,11 @@ export const COMPONENTS: HardwareComponent[] = [
     location: 'Bolted directly on top of the CPU, near the top of the motherboard.',
     facts: [
       'If a CPU overheats, it automatically slows itself down to stay safe — this is called thermal throttling.',
-      'Select the CPU in the index to see this cooler fade away and reveal the processor beneath it.',
+      'In this exploded view the cooler hovers along the exact axis it mounts on — moved straight toward the board, it would land on the CPU.',
     ],
     related: ['cpu', 'fans', 'motherboard'],
-    focus: { target: [-1.15, 1.25, -0.3], camera: [-0.3, 1.9, 3.8] },
-    labelAnchor: [-1.15, 2.25, 0.1],
+    focus: { target: [-2.8, 2.4, 1.5], camera: [-1.9, 2.9, 5.4] },
+    labelAnchor: [-2.8, 3.3, 1.55],
   },
   {
     id: 'fans',
@@ -166,7 +166,7 @@ export const COMPONENTS: HardwareComponent[] = [
       'Dust filters in front of intake fans slow down dust build-up inside the case.',
     ],
     related: ['cooler', 'psu', 'gpu'],
-    focus: { target: [2.0, 0.25, 0], camera: [5.6, 1.0, 3.6] },
+    focus: { target: [2.0, 0.25, 0], camera: [6.1, 1.0, 3.9] },
     labelAnchor: [2.0, 1.95, 0],
   },
 ]
