@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0c1d3b;
+  --color-deep: #08152c;
+  --color-surface: #11294d;
+  --color-raised: #18365c;
+  --color-ink: #eff4fc;
+  --color-secondary: #b2c3db;
+  --color-muted: #8197b5;
+  --color-accent: #86d8ff;
+  --color-focusring: #d8f2ff;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #86d8ff;
+  color: #102141;
+}
+
+/* Faint drafting grid, used only behind the 3D stage and section headers */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(163, 196, 237, 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(163, 196, 237, 0.075) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focusring);
+  outline-offset: 2px;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-in {
+  animation: panel-in 240ms ease-out both;
+}
+
+@keyframes label-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.pc-label {
+  animation: label-in 160ms ease-out both;
+  background: #11294d;
+  border: 1px solid rgba(134, 216, 255, 0.55);
+  color: #eff4fc;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
+.panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #18365c transparent;
+}
+.panel-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.panel-scroll::-webkit-scrollbar-thumb {
+  background: #18365c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .panel-in,
+  .pc-label {
+    animation: none;
+  }
+}
