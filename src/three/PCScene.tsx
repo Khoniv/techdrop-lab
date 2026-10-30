@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, type MutableRefObject, type ReactNode } from 'react'
+import { Component, Suspense, lazy, useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
@@ -6,6 +6,20 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import type { ComponentId, Vec3 } from '../types/hardware'
 import { componentById } from '../data/components'
 import PCModel from './PCModel'
+import type { FocusMap } from './PCModelGLB'
+
+const PCModelGLB = lazy(() => import('./PCModelGLB'))
+
+/** If the external GLB fails to load or parse, fall back to the geometry model. */
+class ModelErrorBoundary extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children
+  }
+}
 
 export interface ViewerApi {
   zoomIn: () => void
@@ -34,12 +48,14 @@ function CameraRig({
   apiRef,
   controlsRef,
   defaultCam,
+  focusMap,
 }: {
   selected: ComponentId | null
   focusNonce: number
   apiRef: MutableRefObject<ViewerApi | null>
   controlsRef: MutableRefObject<OrbitControlsImpl | null>
   defaultCam: Vec3
+  focusMap: FocusMap | null
 }) {
   const anim = useRef({
     active: false,
@@ -60,7 +76,7 @@ function CameraRig({
     const controls = controlsRef.current
     if (!controls) return
     const preset = selected
-      ? componentById(selected).focus
+      ? (focusMap?.[selected] ?? componentById(selected).focus)
       : { camera: defaultCam, target: DEFAULT_TARGET }
     const a = anim.current
     a.fromPos.copy(controls.object.position)
@@ -69,7 +85,7 @@ function CameraRig({
     a.toTg.set(...preset.target)
     a.t = 0
     a.active = true
-  }, [selected, focusNonce, controlsRef, defaultCam])
+  }, [selected, focusNonce, controlsRef, defaultCam, focusMap])
 
   useEffect(() => {
     const dolly = (factor: number) => {
@@ -147,6 +163,22 @@ function ParallaxGroup({
 
 export default function PCScene(props: SceneProps) {
   const controlsRef = useRef<OrbitControlsImpl | null>(null)
+  // An external GLB model (public/models/pc.glb) takes over automatically when present.
+  const [glbAvailable, setGlbAvailable] = useState(false)
+  const [focusMap, setFocusMap] = useState<FocusMap | null>(null)
+  const handleFocusMap = useCallback((map: FocusMap) => setFocusMap(map), [])
+  useEffect(() => {
+    let live = true
+    fetch('/models/pc.glb', { method: 'HEAD' })
+      .then((r) => {
+        const type = r.headers.get('content-type') ?? ''
+        if (live) setGlbAvailable(r.ok && !type.includes('text/html'))
+      })
+      .catch(() => {})
+    return () => {
+      live = false
+    }
+  }, [])
   // Narrow (phone) viewports get a wider default framing so the whole case fits.
   const defaultCam: Vec3 =
     typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
@@ -166,17 +198,51 @@ export default function PCScene(props: SceneProps) {
       <pointLight position={[0, 0.5, 2.5]} intensity={9} distance={10} color="#bcd8ff" />
       <Suspense fallback={null}>
         <ParallaxGroup selected={props.selected} reducedMotion={props.reducedMotion} scrollRef={props.scrollRef}>
-          <PCModel
-            selected={props.selected}
-            hovered={props.hovered}
-            onSelect={props.onSelect}
-            onHover={props.onHover}
-            reducedMotion={props.reducedMotion}
-          />
+          {glbAvailable ? (
+            <ModelErrorBoundary
+              fallback={
+                <PCModel
+                  selected={props.selected}
+                  hovered={props.hovered}
+                  onSelect={props.onSelect}
+                  onHover={props.onHover}
+                  reducedMotion={props.reducedMotion}
+                />
+              }
+            >
+              <Suspense
+                fallback={
+                  <PCModel
+                    selected={props.selected}
+                    hovered={props.hovered}
+                    onSelect={props.onSelect}
+                    onHover={props.onHover}
+                    reducedMotion={props.reducedMotion}
+                  />
+                }
+              >
+                <PCModelGLB
+                  selected={props.selected}
+                  hovered={props.hovered}
+                  onSelect={props.onSelect}
+                  onHover={props.onHover}
+                  onFocusMap={handleFocusMap}
+                />
+              </Suspense>
+            </ModelErrorBoundary>
+          ) : (
+            <PCModel
+              selected={props.selected}
+              hovered={props.hovered}
+              onSelect={props.onSelect}
+              onHover={props.onHover}
+              reducedMotion={props.reducedMotion}
+            />
+          )}
         </ParallaxGroup>
         <ContactShadows position={[0, -2.66, 0]} opacity={0.6} scale={15} blur={2.8} far={3.2} color="#020610" />
       </Suspense>
-      <CameraRig selected={props.selected} focusNonce={props.focusNonce} apiRef={props.apiRef} controlsRef={controlsRef} defaultCam={defaultCam} />
+      <CameraRig selected={props.selected} focusNonce={props.focusNonce} apiRef={props.apiRef} controlsRef={controlsRef} defaultCam={defaultCam} focusMap={glbAvailable ? focusMap : null} />
     </Canvas>
   )
 }
