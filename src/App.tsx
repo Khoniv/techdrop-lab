@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ArrowRight, ArrowUpRight, RotateCcw } from 'lucide-react'
 import type { ComponentId } from './types/hardware'
 import { componentById } from './data/components'
 import ExplodedViewer from './components/ExplodedViewer'
-import HardwareDetailModal from './components/HardwareDetailModal'
+import FunctionInspector from './components/FunctionInspector'
 import ComponentList from './components/ComponentList'
 import ComponentPanel from './components/ComponentPanel'
 
@@ -30,8 +30,8 @@ const TECH: Array<[string, string]> = [
 export default function App() {
   const [selected, setSelected] = useState<ComponentId | null>(null)
   const [hovered, setHovered] = useState<ComponentId | null>(null)
-  const [modalId, setModalId] = useState<ComponentId | null>(null)
-  const [modalClosing, setModalClosing] = useState(false)
+  const [inspectorId, setInspectorId] = useState<ComponentId | null>(null)
+  const [inspectorClosing, setInspectorClosing] = useState(false)
   const reducedMotion = useReducedMotion()
 
   const select = useCallback((id: ComponentId) => {
@@ -42,41 +42,22 @@ export default function App() {
     setSelected(null)
   }, [])
 
-  const openerRef = useRef<ComponentId | null>(null)
-
-  const openModal = useCallback((id: ComponentId) => {
-    openerRef.current = id
+  const openInspector = useCallback((id: ComponentId) => {
     setSelected(id)
-    setModalClosing(false)
-    setModalId(id)
+    setInspectorClosing(false)
+    setInspectorId(id)
   }, [])
 
-  const requestCloseModal = useCallback(() => {
-    setModalClosing(true)
+  const requestCloseInspector = useCallback(() => {
+    setInspectorClosing(true)
   }, [])
 
-  const handleModalExited = useCallback(() => {
-    const opener = openerRef.current
-    openerRef.current = null
-    setModalId(null)
-    setModalClosing(false)
+  const handleInspectorExited = useCallback(() => {
+    setInspectorId(null)
+    setInspectorClosing(false)
     setSelected(null)
-    if (opener) {
-      requestAnimationFrame(() => {
-        document.querySelector<HTMLElement>(`[data-marker="${opener}"]`)?.focus()
-      })
-    }
   }, [])
 
-  // Lock background scroll while the modal is mounted.
-  useEffect(() => {
-    if (!modalId) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = prev
-    }
-  }, [modalId])
 
   const selectAndShowStage = useCallback(
     (id: ComponentId) => {
@@ -88,11 +69,13 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !modalId) close()
+      if (e.key !== 'Escape') return
+      if (inspectorId) requestCloseInspector()
+      else close()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [close, modalId])
+  }, [close, inspectorId, requestCloseInspector])
 
   const selectedComponent = selected ? componentById(selected) : null
 
@@ -176,7 +159,7 @@ export default function App() {
                 <ExplodedViewer
                   selected={selected}
                   hovered={hovered}
-                  onSelect={openModal}
+                  onSelect={openInspector}
                   onHover={setHovered}
                   reducedMotion={reducedMotion}
                 />
@@ -214,7 +197,7 @@ export default function App() {
             </div>
             <p className="max-w-sm text-[15px] leading-relaxed text-secondary">
               Choose a part from the index — or click its numbered marker on the drawing to open its
-              detail window. The view zooms to the part and its study opens beside the index.
+              function diagram. The view zooms to the part and its study opens beside the index.
             </p>
           </div>
 
@@ -300,17 +283,17 @@ export default function App() {
         </section>
       </main>
 
-      {modalId && (
-        <HardwareDetailModal
-          componentId={modalId}
-          closing={modalClosing}
+      {inspectorId && (
+        <FunctionInspector
+          componentId={inspectorId}
+          closing={inspectorClosing}
           reducedMotion={reducedMotion}
-          onClose={requestCloseModal}
+          onClose={requestCloseInspector}
           onSwitch={(id) => {
             setSelected(id)
-            setModalId(id)
+            setInspectorId(id)
           }}
-          onExited={handleModalExited}
+          onExited={handleInspectorExited}
         />
       )}
 

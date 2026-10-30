@@ -33,7 +33,7 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
 
   return (
     <div className="flex h-full w-full items-center justify-center p-3 pt-12 sm:p-5 sm:pt-12">
-      <div className="relative aspect-square h-full max-h-full overflow-hidden border border-[rgba(188,211,245,0.25)] bg-deep shadow-[0_18px_50px_rgba(0,0,0,0.45)] min-[480px]:w-auto max-lg:w-full lg:w-auto">
+      <div data-plate="true" className="relative aspect-square h-full max-h-full overflow-hidden border border-[rgba(188,211,245,0.25)] bg-deep shadow-[0_18px_50px_rgba(0,0,0,0.45)] min-[480px]:w-auto max-lg:w-full lg:w-auto">
         <div
           className={`absolute inset-0 ${reducedMotion ? '' : 'transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.21,1)]'}`}
           style={{ transform: `translate(${tx}%, ${ty}%) scale(${zoom})`, transformOrigin: '0 0' }}
@@ -54,7 +54,7 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
                 key={c.id}
                 type="button"
                 data-marker={c.id}
-                aria-label={`Inspect ${c.name}`}
+                aria-label={`Explore ${c.name}`}
                 aria-pressed={selected === c.id}
                 onClick={() => onSelect(c.id)}
                 onMouseEnter={() => onHover(c.id)}
