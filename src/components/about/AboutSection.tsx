@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import BlueprintStudy from './BlueprintStudy'
+import AnatomyStudy from './AnatomyStudy'
 
 const PHILOSOPHY: Array<{ index: string; title: string; text: string }> = [
   {
@@ -61,13 +61,9 @@ export default function AboutSection({ reducedMotion }: { reducedMotion: boolean
         ))}
       </ol>
 
-      {/* Technical blueprint study */}
+      {/* Technical blueprint study: animated anatomy walkthrough */}
       <div className="mt-10">
-        <BlueprintStudy reducedMotion={reducedMotion} />
-        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-secondary">
-          The same machine as the exploded view on Page 01, redrawn as a line study: every part in
-          its assembly position, reduced to outlines so the arrangement itself becomes the subject.
-        </p>
+        <AnatomyStudy reducedMotion={reducedMotion} />
       </div>
 
       {/* Goals and attribution */}
