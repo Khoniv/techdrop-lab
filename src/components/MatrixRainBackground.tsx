@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 /**
  * Decorative full-viewport Matrix rain: sparse blue glyph streams falling
- * behind the site on a near-black foundation, with a gentle localised
+ * behind the site on a deep navy foundation, with a gentle localised
  * brightening/displacement around the pointer. One Canvas 2D layer,
  * pointer-events disabled, hidden from assistive technology, and fully
  * static under prefers-reduced-motion. All animation state lives outside
@@ -11,9 +11,9 @@ import { useEffect, useRef } from 'react'
  */
 
 const GLYPHS = '01ABCDEFXYZ<>+-*/#'
-const HEAD_COLOR = '#60A5FA'
-const MID_COLOR = '#3B82F6'
-const DIM_COLOR = '#2B5EA8'
+const HEAD_COLOR = '#4DABF7'
+const MID_COLOR = '#3185DA'
+const DIM_COLOR = '#2164B1'
 const POINTER_RADIUS = 150
 
 interface Stream {
@@ -64,7 +64,7 @@ export default function MatrixRainBackground() {
     const buildStreams = () => {
       const mobile = width < 768
       const gap = mobile ? 38 : 30
-      const activeFraction = mobile ? 0.45 : 0.62
+      const activeFraction = mobile ? 0.5 : 0.7
       fontSize = mobile ? 11 : 13
       streams = []
       for (let x = gap / 2; x < width; x += gap) {
@@ -101,7 +101,7 @@ export default function MatrixRainBackground() {
           oy = (dy / dist) * influence * 7
         }
       }
-      ctx.globalAlpha = Math.min(a, 0.75)
+      ctx.globalAlpha = Math.min(a, 0.85)
       ctx.fillStyle = color
       ctx.fillText(ch, gx + ox, gy + oy)
     }
@@ -127,7 +127,7 @@ export default function MatrixRainBackground() {
           const gy = s.y - i * step
           if (gy < -fontSize || gy > height + fontSize) continue
           if (advance > 0 && Math.random() < 0.012) s.chars[i] = randChar()
-          const alpha = i === 0 ? 0.34 : Math.max(0.03, 0.17 * Math.exp(-i * 0.24))
+          const alpha = i === 0 ? 0.5 : Math.max(0.1, 0.36 * Math.exp(-i * 0.24))
           const color = i === 0 ? HEAD_COLOR : i < 6 ? MID_COLOR : DIM_COLOR
           drawGlyph(s.chars[i], s.x, gy, alpha, color)
         }
@@ -222,10 +222,25 @@ export default function MatrixRainBackground() {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full"
-    />
+    <>
+      {/* Permanent deep navy atmosphere: subtle tonal gradient + blueprint grid.
+          The base color itself lives on the --color-bg token (body, shell,
+          header), so the page stays navy even if this layer never paints. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background:
+            'linear-gradient(135deg, #031838 0%, #061D3F 55%, #09244A 100%)',
+        }}
+      >
+        <div className="blueprint-grid absolute inset-0 opacity-60" />
+      </div>
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[1] h-full w-full"
+      />
+    </>
   )
 }
