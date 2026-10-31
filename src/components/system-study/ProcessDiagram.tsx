@@ -141,7 +141,7 @@ function LoadingDiagram({ step, playing, motion }: Omit<DiagramProps, 'process' 
       <PNode x={50} y={150} w={160} h={90} title="SSD" sub="PERMANENT STORAGE" active={isOn(n, 'ssd')} color={color} />
       <PNode x={330} y={150} w={160} h={90} title="RAM" sub="WORKING MEMORY" active={isOn(n, 'ram')} color={color} />
       <PNode x={610} y={150} w={160} h={90} title="CPU" sub="PROCESSOR" active={isOn(n, 'cpu')} color={color} />
-      <PNode x={610} y={290} w={160} h={64} title="GPU" sub="OUTPUT — WHEN NEEDED" active={isOn(n, 'gpu')} color={color} dashed />
+      <PNode x={610} y={290} w={160} h={64} title="GPU" sub="OUTPUT · WHEN NEEDED" active={isOn(n, 'gpu')} color={color} dashed />
       <text x={50} y={392} fontFamily={MONO} fontSize="10" letterSpacing="0.12em" fill={C.muted}>
         STORAGE → WORKING MEMORY ⇄ PROCESSOR
       </text>

@@ -97,7 +97,7 @@ export function CpuDiagram({ m }: { m: boolean }) {
       <PulseDot m={m} cx={276} cy={101} tx={34} ty={0} dur={1.4} delay={0.7} />
       {/* result flows back */}
       <path d="M 370 124 V 158 H 75 V 128" stroke={C.amber} strokeWidth="1.4" fill="none" strokeDasharray="4 4" className={fl(m, true)} markerEnd={`url(#${d}-w)`} />
-      <Label x={222} y={172} color={C.secondary}>RESULT FLOWS BACK — THEN THE CYCLE REPEATS</Label>
+      <Label x={222} y={172} color={C.secondary}>RESULT FLOWS BACK · THEN THE CYCLE REPEATS</Label>
     </svg>
   )
 }
@@ -119,7 +119,7 @@ export function RamDiagram({ m }: { m: boolean }) {
       <PulseDot m={m} cx={228} cy={112} tx={-88} ty={0} dur={1.6} delay={0.8} />
       {/* RAM bank */}
       <rect x={242} y={30} width={186} height={118} fill="#12294D" stroke={C.line} />
-      <Label x={335} y={48} color={C.secondary}>RAM — WORKING MEMORY</Label>
+      <Label x={335} y={48} color={C.secondary}>RAM · WORKING MEMORY</Label>
       {[58, 80, 102].map((y, i) => (
         <g key={y} {...seqProps(m, i * 0.5, 3)}>
           <rect x={256} y={y} width={158} height={15} fill={C.nodeFill} stroke={C.line} />
@@ -128,7 +128,7 @@ export function RamDiagram({ m }: { m: boolean }) {
           ))}
         </g>
       ))}
-      <Label x={335} y={138} color={C.amber}>VOLATILE — EMPTY WHEN POWER IS OFF</Label>
+      <Label x={335} y={138} color={C.amber}>VOLATILE · EMPTY WHEN POWER IS OFF</Label>
     </svg>
   )
 }

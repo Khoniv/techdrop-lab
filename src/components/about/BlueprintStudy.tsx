@@ -54,7 +54,7 @@ export default function BlueprintStudy({ reducedMotion }: { reducedMotion: boole
         System anatomy <span className="text-accent">/</span> Study 001
       </p>
       <p className="pointer-events-none absolute right-4 top-3.5 hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted sm:block">
-        Exploded arrangement — line study
+        Exploded arrangement: line study
       </p>
       <svg viewBox="0 0 880 520" className="h-auto w-full" role="img" aria-label="Line blueprint of the exploded desktop computer: cooler and processor above the motherboard, memory and graphics card beside it, power supply below, all in front of the open case">
         {/* case outline (right) */}

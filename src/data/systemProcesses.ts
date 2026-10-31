@@ -35,7 +35,7 @@ export const SYSTEM_PROCESSES: SystemProcess[] = [
         id: 'distribution',
         label: 'Power is distributed',
         explanation:
-          'Separate power connections carry DC power from the PSU to the motherboard, on to the CPU\u2019s power delivery, and directly to the graphics card and storage drives \u2014 each receiving the voltages it is designed for.',
+          'Separate power connections carry DC power from the PSU to the motherboard, on to the CPU\u2019s power delivery, and directly to the graphics card and storage drives, each receiving the voltages it is designed for.',
         activeNodes: ['psu', 'motherboard', 'cpu', 'gpu', 'ssd'],
         activeEdges: ['psu-motherboard', 'motherboard-cpu', 'psu-gpu', 'psu-ssd'],
       },
@@ -49,7 +49,7 @@ export const SYSTEM_PROCESSES: SystemProcess[] = [
       },
     ],
     components: ['psu', 'motherboard', 'cpu', 'gpu', 'ssd'],
-    note: 'Conceptual model \u2014 simplified for learning. Actual voltage rails and connectors vary by hardware.',
+    note: 'Conceptual model: simplified for learning. Actual voltage rails and connectors vary by hardware.',
   },
   {
     id: 'loading',
@@ -80,7 +80,7 @@ export const SYSTEM_PROCESSES: SystemProcess[] = [
         id: 'process',
         label: 'Process instructions',
         explanation:
-          'The CPU repeatedly fetches instructions from RAM, decodes them, and executes them \u2014 reading inputs and writing results back to memory as the program runs.',
+          'The CPU repeatedly fetches instructions from RAM, decodes them, and executes them, reading inputs and writing results back to memory as the program runs.',
         activeNodes: ['ram', 'cpu'],
         activeEdges: ['ram-cpu', 'cpu-ram'],
       },
@@ -94,7 +94,7 @@ export const SYSTEM_PROCESSES: SystemProcess[] = [
       },
     ],
     components: ['ssd', 'ram', 'cpu', 'gpu'],
-    note: 'Conceptual model \u2014 simplified for learning. Real systems also involve caches and controllers not shown here.',
+    note: 'Conceptual model: simplified for learning. Real systems also involve caches and controllers not shown here.',
   },
   {
     id: 'graphics',
@@ -117,7 +117,7 @@ export const SYSTEM_PROCESSES: SystemProcess[] = [
         id: 'render',
         label: 'GPU processing',
         explanation:
-          'The commands and data are sent to the GPU. Its many parallel cores compute the image \u2014 positioning geometry, shading surfaces, and applying effects \u2014 using fast graphics memory.',
+          'The commands and data are sent to the GPU. Its many parallel cores compute the image (positioning geometry, shading surfaces, and applying effects) using fast graphics memory.',
         activeNodes: ['cpu', 'gpu'],
         activeEdges: ['cpu-gpu'],
       },

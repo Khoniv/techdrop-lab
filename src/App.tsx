@@ -78,7 +78,7 @@ export default function App() {
       <div className="relative z-10">
       <header className="sticky top-0 z-40 border-b border-[rgba(188,211,245,0.18)] bg-bg">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-14">
-          <a href="#top" className="flex items-center gap-2.5" aria-label="TechDrop Lab — back to top">
+          <a href="#top" className="flex items-center gap-2.5" aria-label="TechDrop Lab: back to top">
             <span aria-hidden className="flex h-6 w-6 items-center justify-center border border-accent">
               <span className="h-2 w-2 bg-ink" />
             </span>
@@ -142,7 +142,7 @@ export default function App() {
                 className="blueprint-grid relative h-[440px] scroll-mt-20 border border-[rgba(188,211,245,0.18)] bg-deep sm:h-[520px] lg:h-[calc(100vh-170px)] lg:min-h-[540px]"
               >
                 <p className="pointer-events-none absolute left-4 top-3.5 z-10 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                  Fig. 01 — Desktop system
+                  Fig. 01 · Desktop system
                 </p>
                 <p className="pointer-events-none absolute right-4 top-3.5 z-10 hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted sm:block">
                   Exploded view
@@ -158,9 +158,9 @@ export default function App() {
 
                 <p className="absolute bottom-3.5 left-4 z-10 max-w-[70%] bg-surface px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">
                   {selectedComponent
-                    ? `${selectedComponent.index} — ${selectedComponent.name} · function diagram open`
+                    ? `${selectedComponent.index} · ${selectedComponent.name} · function diagram open`
                     : hovered
-                      ? `${componentById(hovered).name} — click to inspect`
+                      ? `${componentById(hovered).name} · click to inspect`
                       : 'Select a component to inspect'}
                 </p>
                 <div className="absolute bottom-3.5 right-4 z-10 flex gap-2">
@@ -199,7 +199,7 @@ export default function App() {
 
       <footer className="border-t border-[rgba(188,211,245,0.18)]">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-5 py-7 font-mono text-[11px] uppercase tracking-[0.12em] text-muted md:px-10 lg:px-14">
-          <p>TechDrop Lab — Explore the hardware. Understand the technology.</p>
+          <p>TechDrop Lab: Explore the hardware. Understand the technology.</p>
           <p>© 2026 Khonif Zakaria</p>
         </div>
       </footer>

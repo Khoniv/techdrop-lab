@@ -54,7 +54,7 @@ export default function ProcessControls({
                   aria-hidden
                 />
                 <span className={`mt-2 block font-mono text-[10px] uppercase tracking-[0.12em] ${active ? 'text-ink' : 'text-muted'}`}>
-                  Step {String(i + 1).padStart(2, '0')} — {s.label}
+                  Step {String(i + 1).padStart(2, '0')}: {s.label}
                 </span>
               </button>
             </li>
@@ -84,7 +84,7 @@ export default function ProcessControls({
           <RotateCcw size={16} aria-hidden />
         </button>
         <p className="ml-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted" aria-live="polite">
-          Step {String(stepIndex + 1).padStart(2, '0')} / {String(process.steps.length).padStart(2, '0')} —{' '}
+          Step {String(stepIndex + 1).padStart(2, '0')} / {String(process.steps.length).padStart(2, '0')}:{' '}
           {process.steps[stepIndex].label}
         </p>
       </div>

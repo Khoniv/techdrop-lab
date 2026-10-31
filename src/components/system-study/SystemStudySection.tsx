@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ComponentId } from '../../types/hardware'
 import type { ProcessId } from '../../types/systemProcess'
 import { processById } from '../../data/systemProcesses'
+import { motion } from 'motion/react'
 import ProcessSelector from './ProcessSelector'
 import ProcessDiagram from './ProcessDiagram'
 import ProcessControls from './ProcessControls'
@@ -95,7 +96,7 @@ export default function SystemStudySection({ reducedMotion, onSelectComponent }:
       </div>
 
       <div className="mt-9">
-        <ProcessSelector value={processId} onChange={switchProcess} />
+        <ProcessSelector value={processId} onChange={switchProcess} reducedMotion={reducedMotion} />
       </div>
 
       <div
@@ -104,9 +105,15 @@ export default function SystemStudySection({ reducedMotion, onSelectComponent }:
         aria-labelledby={`process-tab-${processId}`}
         className="mt-5"
       >
+        <motion.div
+          key={process.id}
+          initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.32, ease: 'easeOut' }}
+        >
         <div className="blueprint-grid relative border border-[rgba(188,211,245,0.22)] bg-deep px-3 pb-3 pt-11 sm:px-5 sm:pb-5">
           <p className="pointer-events-none absolute left-4 top-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-            Process visualization — {process.label}
+            Process visualization: {process.label}
           </p>
           <p className="pointer-events-none absolute right-4 top-3.5 hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted sm:block">
             Step {String(stepIndex + 1).padStart(2, '0')} / {String(process.steps.length).padStart(2, '0')}
@@ -137,6 +144,7 @@ export default function SystemStudySection({ reducedMotion, onSelectComponent }:
           stepIndex={stepIndex}
           onSelectComponent={onSelectComponent}
         />
+        </motion.div>
       </div>
     </section>
   )

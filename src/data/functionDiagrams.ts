@@ -25,11 +25,11 @@ export const functionStudies: Record<ComponentId, FunctionStudy> = {
   ram: {
     summary:
       'When the CPU needs data, the memory controller transfers it into RAM, where it sits ready for near-instant access, and writes results back the same way. RAM is volatile: it only holds data while the computer is powered.',
-    steps: ['CPU requests data', 'Controller transfers it', 'RAM holds working data', 'Power off — data is lost'],
+    steps: ['CPU requests data', 'Controller transfers it', 'RAM holds working data', 'Power off: data is lost'],
   },
   gpu: {
     summary:
-      'The GPU receives scene and drawing data and splits the work across many small cores running in parallel — a good match for graphics, where millions of pixels need the same operations. The finished frame is then sent on to the display.',
+      'The GPU receives scene and drawing data and splits the work across many small cores running in parallel, a good match for graphics, where millions of pixels need the same operations. The finished frame is then sent on to the display.',
     steps: ['Scene data arrives', 'Cores process in parallel', 'Frame is rendered', 'Frame sent to display'],
   },
   ssd: {

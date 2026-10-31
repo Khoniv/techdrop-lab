@@ -23,14 +23,7 @@ const GOALS: Array<{ term: string; text: string }> = [
   { term: 'Educational', text: 'Make basic computer architecture easier to understand.' },
   { term: 'Interactive', text: 'Let visitors inspect hardware instead of only reading about it.' },
   { term: 'Accessible', text: 'Provide clear navigation, understandable explanations, and responsive layouts.' },
-  { term: 'Focused', text: 'No shopping, scoring, or unrelated systems — only the machine and how it works.' },
-]
-
-const BUILT_WITH: Array<[string, string]> = [
-  ['React + TypeScript', 'Interface, state, and application logic'],
-  ['Tailwind CSS', 'Blueprint design system and layout'],
-  ['Vite', 'Development and production build tooling'],
-  ['Lucide', 'Line icons for controls and markers'],
+  { term: 'Focused', text: 'No shopping, scoring, or unrelated systems. Only the machine and how it works.' },
 ]
 
 /** FIG. 03 — Behind the Project: a concise visual case study. */
@@ -77,9 +70,9 @@ export default function AboutSection({ reducedMotion }: { reducedMotion: boolean
         </p>
       </div>
 
-      {/* Goals, build details, attribution */}
+      {/* Goals and attribution */}
       <div className="mt-12 grid gap-10 lg:grid-cols-12">
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-7">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Project goals</h3>
           <dl className="mt-3 space-y-4">
             {GOALS.map((g) => (
@@ -90,18 +83,7 @@ export default function AboutSection({ reducedMotion }: { reducedMotion: boolean
             ))}
           </dl>
         </div>
-        <div className="lg:col-span-4">
-          <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Built with</h3>
-          <ul className="mt-2">
-            {BUILT_WITH.map(([name, note]) => (
-              <li key={name} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[rgba(188,211,245,0.14)] py-3">
-                <span className="font-medium text-ink">{name}</span>
-                <span className="text-sm text-muted">{note}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-5">
           <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Created by</h3>
           <p className="mt-3 leading-relaxed text-secondary">
             Built by <span className="text-ink">Khonif Zakaria</span>, software engineer, as a
@@ -114,7 +96,7 @@ export default function AboutSection({ reducedMotion }: { reducedMotion: boolean
               rel="noreferrer"
               className="inline-flex items-center justify-between gap-2 border border-[rgba(188,211,245,0.25)] px-4 py-2.5 text-sm text-secondary transition-colors hover:border-accent hover:text-ink"
             >
-              Portfolio — nivdev.ai.id
+              Portfolio: nivdev.ai.id
               <ArrowUpRight size={15} aria-hidden />
             </a>
             <a
@@ -123,7 +105,7 @@ export default function AboutSection({ reducedMotion }: { reducedMotion: boolean
               rel="noreferrer"
               className="inline-flex items-center justify-between gap-2 border border-[rgba(188,211,245,0.25)] px-4 py-2.5 text-sm text-secondary transition-colors hover:border-accent hover:text-ink"
             >
-              GitHub — Khoniv
+              GitHub: Khoniv
               <ArrowUpRight size={15} aria-hidden />
             </a>
           </div>

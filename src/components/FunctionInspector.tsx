@@ -221,7 +221,7 @@ export default function FunctionInspector({
           <div className="px-4 pt-3.5">
             <h3 id="inspector-title" className="text-[22px] font-bold leading-tight tracking-tight text-ink">
               {component.name}
-              <span className="ml-2 align-middle text-[13px] font-medium text-muted">— How it works</span>
+              <span className="ml-2 align-middle text-[13px] font-medium text-muted">: How it works</span>
             </h3>
           </div>
 
@@ -262,7 +262,7 @@ export default function FunctionInspector({
             <button
               type="button"
               onClick={() => onSwitch(prevId)}
-              aria-label={`Previous component — ${componentById(prevId).name}`}
+              aria-label={`Previous component: ${componentById(prevId).name}`}
               className="inline-flex items-center gap-2 border border-[rgba(188,211,245,0.25)] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-secondary transition-colors hover:bg-raised hover:text-ink"
             >
               <ArrowLeft size={13} aria-hidden />
@@ -271,7 +271,7 @@ export default function FunctionInspector({
             <button
               type="button"
               onClick={() => onSwitch(nextId)}
-              aria-label={`Next component — ${componentById(nextId).name}`}
+              aria-label={`Next component: ${componentById(nextId).name}`}
               className="inline-flex items-center gap-2 border border-[rgba(188,211,245,0.25)] px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-secondary transition-colors hover:bg-raised hover:text-ink"
             >
               Next
@@ -283,7 +283,7 @@ export default function FunctionInspector({
 
       {/* Polite announcement of the open component for screen readers */}
       <p className="sr-only" aria-live="polite">
-        {component.name} — how it works
+        {component.name}: how it works
       </p>
     </>
   )

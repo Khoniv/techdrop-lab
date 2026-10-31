@@ -18,7 +18,7 @@ export default function ProcessExplanation({ process, step, stepIndex, onSelectC
     <div className="mt-8 grid gap-8 border-t border-[rgba(188,211,245,0.14)] pt-7 lg:grid-cols-12">
       <div className="lg:col-span-7" key={`${process.id}-${step.id}`}>
         <p className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: accent }}>
-          Step {String(stepIndex + 1).padStart(2, '0')} / {String(process.steps.length).padStart(2, '0')} — {step.label}
+          Step {String(stepIndex + 1).padStart(2, '0')} / {String(process.steps.length).padStart(2, '0')} : {step.label}
         </p>
         <p className="panel-in mt-3 max-w-xl text-[17px] leading-relaxed text-ink">{step.explanation}</p>
         <p className="mt-4 max-w-xl leading-relaxed text-secondary">{process.description}</p>

@@ -158,7 +158,7 @@ export function FansDiagram({ m }: { m: boolean }) {
       {fanSquare(342, 126, C.accent)}
       <path d="M 424 58 H 380" stroke={C.accent} strokeWidth="1.8" fill="none" className={fl(m)} markerEnd={`url(#${d}-a)`} />
       <path d="M 424 142 H 380" stroke={C.accent} strokeWidth="1.8" fill="none" className={fl(m)} markerEnd={`url(#${d}-a)`} />
-      <Label x={398} y={30} color={C.accent}>INTAKE — COOL AIR IN</Label>
+      <Label x={398} y={30} color={C.accent}>INTAKE · COOL AIR IN</Label>
       {/* exhaust fan on the rear (left) */}
       {fanSquare(58, 84, C.heat)}
       <path d="M 52 100 H 12" stroke={C.heat} strokeWidth="1.8" fill="none" className={fl(m)} markerEnd={`url(#${d}-h)`} />

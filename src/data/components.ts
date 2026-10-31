@@ -10,7 +10,7 @@ export const COMPONENTS: HardwareComponent[] = [
     description:
       'The motherboard is the main circuit board of the computer. Every other component connects to it, directly or through cables, so data and power can move between them.',
     primaryFunction:
-      'Connects all hardware together and provides the pathways — buses and controllers — that let the CPU, memory, storage, and expansion cards communicate.',
+      'Connects all hardware together and provides the pathways (buses and controllers) that let the CPU, memory, storage, and expansion cards communicate.',
     howItWorks:
       'Printed copper traces on the board carry electrical signals between sockets and slots. A chipset and firmware (BIOS/UEFI) coordinate the parts when the computer starts, before the operating system loads.',
     location: 'Mounted flat against the back wall of the case, behind every other component.',
@@ -27,11 +27,11 @@ export const COMPONENTS: HardwareComponent[] = [
     fullName: 'Central Processing Unit',
     category: 'Processing',
     description:
-      'The CPU is the processor — the part that carries out the instructions of every program you run, from the operating system to a game.',
+      'The CPU is the processor, the part that carries out the instructions of every program you run, from the operating system to a game.',
     primaryFunction:
       'Executes instructions and performs calculations, coordinating the work of the rest of the system.',
     howItWorks:
-      'It repeatedly fetches an instruction from memory, decodes what it means, and executes it — billions of times per second. Modern CPUs contain several cores, so they can work on many instructions at once. In this exploded view the processor floats above its socket; in an assembled computer it sits clamped beneath the cooler.',
+      'It repeatedly fetches an instruction from memory, decodes what it means, and executes it, billions of times per second. Modern CPUs contain several cores, so they can work on many instructions at once. In this exploded view the processor floats above its socket; in an assembled computer it sits clamped beneath the cooler.',
     location: 'In the CPU socket near the top of the motherboard, directly beneath the CPU cooler once assembled.',
     facts: [
       'A modern desktop CPU contains billions of transistors.',
@@ -54,7 +54,7 @@ export const COMPONENTS: HardwareComponent[] = [
     location: 'In the long memory slots on the motherboard, to the right of the CPU socket.',
     facts: [
       'More RAM lets more applications stay open at the same time without slowing down.',
-      'RAM is far faster to access than even the quickest SSD — but it forgets everything when the power goes off.',
+      'RAM is far faster to access than even the quickest SSD, but it forgets everything when the power goes off.',
     ],
     related: ['cpu', 'motherboard', 'ssd'],
   },
@@ -69,7 +69,7 @@ export const COMPONENTS: HardwareComponent[] = [
     primaryFunction:
       'Calculates and draws images, video, and 3D scenes, and sends the finished picture to the display.',
     howItWorks:
-      'Unlike a CPU, a GPU has thousands of smaller cores that perform many similar calculations in parallel — exactly what drawing millions of pixels requires. Its fans move heat away from the card while it works.',
+      'Unlike a CPU, a GPU has thousands of smaller cores that perform many similar calculations in parallel, exactly what drawing millions of pixels requires. Its fans move heat away from the card while it works.',
     location: 'In the longest expansion slot on the motherboard, mounted horizontally below the CPU.',
     facts: [
       'The same parallel design that draws games also accelerates AI and scientific computing.',
@@ -88,7 +88,7 @@ export const COMPONENTS: HardwareComponent[] = [
     primaryFunction:
       'Stores data persistently and loads it quickly when the computer starts or a program opens.',
     howItWorks:
-      'An SSD keeps data in flash memory chips. It has no moving parts — nothing spins — so it reads and writes far faster and more quietly than an older mechanical hard disk.',
+      'An SSD keeps data in flash memory chips. It has no moving parts and nothing spins, so it reads and writes far faster and more quietly than an older mechanical hard disk.',
     location: 'Lies flat in a short M.2 slot on the motherboard, below the graphics card; here it floats just off that slot.',
     facts: [
       'Because an SSD has no moving parts, it also survives bumps and drops better than a hard disk.',
@@ -110,7 +110,7 @@ export const COMPONENTS: HardwareComponent[] = [
       'Inside, a transformer and control circuits convert alternating current into direct current at several voltages. Cables carry that power to the motherboard, graphics card, and drives.',
     location: 'Slides into the bottom of the case under the metal shroud; in this view it is pulled out along its mounting path.',
     facts: [
-      'Every other component depends on the PSU — without it, nothing in the case receives power.',
+      'Every other component depends on the PSU. Without it, nothing in the case receives power.',
       'Its capacity is rated in watts (W), which must cover the whole system’s demand.',
     ],
     related: ['motherboard', 'gpu', 'ssd'],
@@ -129,8 +129,8 @@ export const COMPONENTS: HardwareComponent[] = [
       'A copper base plate touches the CPU and conducts heat into heat pipes and aluminium fins. The fan blows air across the fins, carrying the heat away. A thin layer of thermal paste fills the microscopic gaps between CPU and cooler.',
     location: 'Bolted directly on top of the CPU, near the top of the motherboard.',
     facts: [
-      'If a CPU overheats, it automatically slows itself down to stay safe — this is called thermal throttling.',
-      'In this exploded view the cooler hovers along the exact axis it mounts on — moved straight toward the board, it would land on the CPU.',
+      'If a CPU overheats, it automatically slows itself down to stay safe. This is called thermal throttling.',
+      'In this exploded view the cooler hovers along the exact axis it mounts on. Moved straight toward the board, it would land on the CPU.',
     ],
     related: ['cpu', 'fans', 'motherboard'],
   },
