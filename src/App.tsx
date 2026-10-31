@@ -4,6 +4,7 @@ import type { ComponentId } from './types/hardware'
 import { componentById } from './data/components'
 import ExplodedViewer from './components/ExplodedViewer'
 import FunctionInspector from './components/FunctionInspector'
+import MatrixRainBackground from './components/MatrixRainBackground'
 import SystemStudySection from './components/system-study/SystemStudySection'
 import AboutSection from './components/about/AboutSection'
 
@@ -73,6 +74,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-bg font-sans text-ink">
+      <MatrixRainBackground />
+      <div className="relative z-10">
       <header className="sticky top-0 z-40 border-b border-[rgba(188,211,245,0.18)] bg-bg">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-14">
           <a href="#top" className="flex items-center gap-2.5" aria-label="TechDrop Lab — back to top">
@@ -200,6 +203,7 @@ export default function App() {
           <p>© 2026 Khonif Zakaria</p>
         </div>
       </footer>
+      </div>
     </div>
   )
 }
