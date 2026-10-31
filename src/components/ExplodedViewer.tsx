@@ -38,12 +38,25 @@ export default function ExplodedViewer({ selected, hovered, onSelect, onHover, r
           className={`absolute inset-0 ${reducedMotion ? '' : 'transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.21,1)]'}`}
           style={{ transform: `translate(${tx}%, ${ty}%) scale(${zoom})`, transformOrigin: '0 0' }}
         >
-          <img
-            src="/images/exploded-pc.webp"
-            alt="Exploded view of a desktop computer: cooler, processor, motherboard, memory, graphics card, SSD, power supply, and case fans pulled apart beside an open black ATX case"
-            className="h-full w-full select-none object-cover"
-            draggable={false}
-          />
+          {/* The illustration ships as four overlapping quadrant tiles of
+              the full-resolution 1254px render (q88), so zooms stay sharp.
+              The tiles are opaque (pre-composited onto the stage colour),
+              so the 2px overlaps hide the seams. */}
+          <div
+            role="img"
+            aria-label="Exploded view of a desktop computer: cooler, processor, motherboard, memory, graphics card, SSD, power supply, and case fans pulled apart beside an open black ATX case"
+            className="grid h-full w-full select-none grid-cols-2 grid-rows-2"
+          >
+            {(['tl', 'tr', 'bl', 'br'] as const).map((tile) => (
+              <img
+                key={tile}
+                src={`/images/exploded-pc-${tile}.webp`}
+                alt=""
+                className="block h-full w-full"
+                draggable={false}
+              />
+            ))}
+          </div>
           {COMPONENTS.map((c) => {
             const h = hotspots[c.id]
             const isActive = selected === c.id || hovered === c.id
