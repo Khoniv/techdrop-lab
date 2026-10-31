@@ -137,6 +137,25 @@ body {
   animation: diagram-swap 260ms ease-out both;
 }
 
+/* Page 03 blueprint study: line draw-in + layer fade on first view. */
+.bp-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.bp-on .bp-draw {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--d, 0s);
+}
+.bp-fade {
+  opacity: 0;
+}
+.bp-on .bp-fade {
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  transition-delay: var(--d, 0s);
+}
+
 /* Animated SVG function diagrams: flowing dashes, travelling pulses,
    sequenced step highlights. All motion is transform/opacity/stroke only. */
 @keyframes dash-flow {
@@ -238,5 +257,13 @@ body {
   .heat-pulse,
   .spin-slow {
     animation: none;
+  }
+  .bp-draw {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .bp-fade {
+    opacity: 1;
+    transition: none;
   }
 }

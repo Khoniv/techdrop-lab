@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ArrowRight, ArrowUpRight, RotateCcw } from 'lucide-react'
+import { ArrowRight, RotateCcw } from 'lucide-react'
 import type { ComponentId } from './types/hardware'
 import { componentById } from './data/components'
 import ExplodedViewer from './components/ExplodedViewer'
 import FunctionInspector from './components/FunctionInspector'
-import ComponentList from './components/ComponentList'
-import ComponentPanel from './components/ComponentPanel'
+import SystemStudySection from './components/system-study/SystemStudySection'
+import AboutSection from './components/about/AboutSection'
 
 function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -20,23 +20,12 @@ function useReducedMotion(): boolean {
   return reduced
 }
 
-const TECH: Array<[string, string]> = [
-  ['React + TypeScript', 'Interface and application logic'],
-  ['Annotated exploded illustration', 'Numbered markers with zoom-to-part focus'],
-  ['Tailwind CSS', 'Blueprint design system and layout'],
-  ['Vite', 'Development and production build'],
-]
-
 export default function App() {
   const [selected, setSelected] = useState<ComponentId | null>(null)
   const [hovered, setHovered] = useState<ComponentId | null>(null)
   const [inspectorId, setInspectorId] = useState<ComponentId | null>(null)
   const [inspectorClosing, setInspectorClosing] = useState(false)
   const reducedMotion = useReducedMotion()
-
-  const select = useCallback((id: ComponentId) => {
-    setSelected(id)
-  }, [])
 
   const close = useCallback(() => {
     setSelected(null)
@@ -59,12 +48,12 @@ export default function App() {
   }, [])
 
 
-  const selectAndShowStage = useCallback(
+  const inspectComponent = useCallback(
     (id: ComponentId) => {
-      select(id)
+      openInspector(id)
       document.getElementById('stage')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' })
     },
-    [select, reducedMotion],
+    [openInspector, reducedMotion],
   )
 
   useEffect(() => {
@@ -166,7 +155,7 @@ export default function App() {
 
                 <p className="absolute bottom-3.5 left-4 z-10 max-w-[70%] bg-surface px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">
                   {selectedComponent
-                    ? `${selectedComponent.index} — ${selectedComponent.name} · study open below`
+                    ? `${selectedComponent.index} — ${selectedComponent.name} · function diagram open`
                     : hovered
                       ? `${componentById(hovered).name} — click to inspect`
                       : 'Select a component to inspect'}
@@ -184,103 +173,11 @@ export default function App() {
           </div>
         </section>
 
-        {/* ---------- Inspection sheet: index + study ---------- */}
-        <section id="explore" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 py-14 md:px-10 lg:px-14 lg:py-20">
-          <div className="flex flex-wrap items-end justify-between gap-6 border-t border-[rgba(188,211,245,0.18)] pt-10">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-                Fig. 02 <span className="text-accent">/</span> Hardware explorer
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-[2.6rem] md:leading-none">
-                Component study
-              </h2>
-            </div>
-            <p className="max-w-sm text-[15px] leading-relaxed text-secondary">
-              Choose a part from the index — or click its numbered marker on the drawing to open its
-              function diagram. The view zooms to the part and its study opens beside the index.
-            </p>
-          </div>
+        {/* ---------- Process sheet: how the parts work together ---------- */}
+        <SystemStudySection reducedMotion={reducedMotion} onSelectComponent={inspectComponent} />
 
-          <div className="mt-10 grid items-start gap-6 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                Component index
-              </h3>
-              <ComponentList selected={selected} onSelect={selectAndShowStage} />
-              <p className="mt-4 font-mono text-xs leading-relaxed text-muted">
-                IN THIS EXPLODED VIEW, EVERY PART FLOATS BESIDE THE PLACE WHERE IT INSTALLS.
-              </p>
-            </div>
-            <div className="lg:col-span-8">
-              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-                Component study
-              </h3>
-              <ComponentPanel component={selectedComponent} onClose={close} onSelect={selectAndShowStage} />
-            </div>
-          </div>
-        </section>
-
-        {/* ---------- About ---------- */}
-        <section id="about" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 pb-20 md:px-10 lg:px-14">
-          <div className="grid gap-10 border-t border-[rgba(188,211,245,0.18)] pt-10 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-                Fig. 03 <span className="text-accent">/</span> About
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight">A field guide, not a store.</h2>
-              <p className="mt-5 max-w-xl leading-relaxed text-secondary">
-                TechDrop Lab is an interactive educational exhibit about the inside of a desktop computer.
-                It exists for one reason: to make hardware understandable by letting you look at it —
-                study the machine pulled apart, pick a part, and read a plain explanation of what that
-                part does and how it works.
-              </p>
-              <p className="mt-4 max-w-xl leading-relaxed text-secondary">
-                The drawing above shows the computer in an exploded view — motherboard, processor,
-                memory, graphics card, storage, power supply, and cooling — each part floating along the
-                path it would take during assembly. Every part carries a numbered marker that matches
-                the component index. No shop, no scores, no accounts: just the machine and its study.
-              </p>
-              <p className="mt-4 max-w-xl leading-relaxed text-secondary">
-                Built by <span className="text-ink">Khonif Zakaria</span>, software engineer, as a
-                learning and portfolio project.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="https://nivdev.ai.id"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 border border-[rgba(188,211,245,0.25)] px-4 py-2.5 text-sm text-secondary transition-colors hover:border-accent hover:text-ink"
-                >
-                  Portfolio — nivdev.ai.id
-                  <ArrowUpRight size={15} aria-hidden />
-                </a>
-                <a
-                  href="https://github.com/Khoniv"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 border border-[rgba(188,211,245,0.25)] px-4 py-2.5 text-sm text-secondary transition-colors hover:border-accent hover:text-ink"
-                >
-                  GitHub — Khoniv
-                  <ArrowUpRight size={15} aria-hidden />
-                </a>
-              </div>
-            </div>
-            <div className="lg:col-span-5">
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Built with</h3>
-              <ul className="mt-2">
-                {TECH.map(([name, note]) => (
-                  <li
-                    key={name}
-                    className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[rgba(188,211,245,0.14)] py-3"
-                  >
-                    <span className="font-medium text-ink">{name}</span>
-                    <span className="text-sm text-muted">{note}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+        {/* ---------- Behind the project ---------- */}
+        <AboutSection reducedMotion={reducedMotion} />
       </main>
 
       {inspectorId && (
